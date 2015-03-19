@@ -1,0 +1,15 @@
+
+1.3.1 (833b9c6)
+  - fix duplication ssh configs when using sftp_chroots #pp-2040
+1.3.0 (6086e63)
+  - added option to configure custom remote host in .ssh/config #pp-1113
+1.2.1 (fe7e5f0)
+  - Make kexalgorithms and macs parameters #pp-1854
+  - preset for kexalgorithms, activate to support older clients #pp-1854
+1.2.0 (1aa57b3)
+  - set default to 'installed' instead of 'latest' #pp-1854
+  - Make ciphers a parameter,
+1.1.0 (8cc6404e6)
+  - remove gentoo::sync, cause it's already in ve_base #pp-1701
+1.0.0 (940fbc304)
+  - Version 1. Added README and CHANGELOG documentation. pp-1381.
