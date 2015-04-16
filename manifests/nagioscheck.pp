@@ -39,11 +39,8 @@ class ssh::nagioscheck (
   }
 
   if defined(Class['monit']) {
-    monit::check_process::process_set { 'ssh':
+    monit::check_process::process_set { $service:
       ensure => $monit_check,
-      pid    => "/var/run/${service}.pid",
-      start  => "/etc/init.d/${service} restart",
-      stop   => "/etc/init.d/${service} stop",
       tests  => $monit_tests,
     }
   }
