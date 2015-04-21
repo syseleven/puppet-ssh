@@ -115,3 +115,54 @@ Allows a custom remotehost ssh config to be set up, for example /root/.ssh/confi
             remote_privatekey: 'ehurlghwelrghurelgheurliwgherilgheuiwlgheurilgherlghquerilghledward'
             remote_hostname: 'echolon.nsa.gov'
 
+## Ssh::authorized_keys
+
+Manage authorized_keys.
+
+    classes:
+      ssh::authorized_keys:
+        purge: true
+        import_root:
+          - sys11_admins
+
+Import all ssh public keys named sys11_admins into /root/.ssh/authorized_keys.
+If your Node implements the class ssh::config_auth_keys as well, this keys will be used.
+
+e.g.
+
+    classes:
+      ssh::config_auth_keys:
+        authorized_keys:
+          sys11_admins:
+            'root_admin1':
+              type: ssh-rsa
+              key: AA...
+            'root_admin2':
+              type: ssh-dss
+              key: AA...
+          backupserver:
+            'root_nfs-backup01.blu1.syseleven.de':
+              type: ssh-rsa
+              key: AA..
+
+Where sys11_admins and backupserver are the group names, to be used as import_root.
+We created a class sys11_ssh_keys, that we load on highest level as possible.
+We use it on hardwarenode_base and virtuozzo_ve. This Class does pretty much nothing,
+expect of holding the configuration for ssh::authorized_keys. So this class does
+not affect any configuration, as long as ssh::authorized_keys ist not used.
+
+You can import separate keys as well, or remove keys explicitly.
+
+    classes:
+      ssh::authorized_keys:
+        purge: true
+        import_root:
+          - sys11_admins
+        authorized_keys:
+          'root_someoneskey':
+            key: AA...
+            type: rsa
+          'root_obsoletekey':
+            key: AA...
+            type: rsa
+            ensure: absent

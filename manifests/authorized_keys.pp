@@ -97,6 +97,57 @@ class ssh::authorized_keys (
     }
   }
 
+  # define manage_config_auth_keys
+  #
+  # Parameters:
+  #   $authorized_keys
+  #     hash of groups and ssh public keys
+  #     See ssh::config_auth_keys "Sample Usage"
+  define manage_config_auth_keys($authorized_keys) {
+    if $authorized_keys[$name] {
+      $host_key_keys = keys($authorized_keys[$name])
+      manage_authorized_keys { $host_key_keys:
+        authorized_keys => $authorized_keys[$name],
+      }
+    }
+  }
+
+  # Holy shit... what are you doing?
+  #
+  # Usually we import keys via PuppetDB. This has especially the flaw, that
+  # everyone (who is root on a machine), is able to place his/her own ssh
+  # public key as sys11_admins.
+  # This means. Potentially root everywhere o_O
+  #
+  # However, what does this crap do.
+  # First... have a look if ssh::config_auth_keys is defined for this node.
+  # If so. It imports all keys from this configuration. If not. The old
+  # behavior is kept. Indicated by $do_import_by_tag.
+  #
+  # Why this complicated?
+  # Backward compatiblity. The node/role.yamls are the same like before!
+  # No change needed in enc-db.
+  # If ssh::config_auth_keys is not defined for the node. Everything is fine
+  # too. The old behaviour will be used.
+  #
+  # Have also a look at the documentation of ssh::config_auth_keys.
+  #
+  if defined(Class['ssh::config_auth_keys']) {
+    include ssh::config_auth_keys
+    $defined_auth_keys = $ssh::config_auth_keys::authorized_keys
+    if $defined_auth_keys {
+      manage_config_auth_keys { $import_root:
+        authorized_keys => $defined_auth_keys,
+      }
+      $do_import_by_tag = false
+    } else {
+      $do_import_by_tag = true
+    }
+  } else {
+    $do_import_by_tag = true
+  }
+  # /Holy shit... what are you doing?
+
   if $export_root {
     if $::root_ssh_rsa_pub_key != '' {
       $keyname = strip(values_at(split($::root_ssh_rsa_pub_key, ' '), 2))
@@ -122,7 +173,7 @@ class ssh::authorized_keys (
       }
     }
 
-  if $import_root {
+  if $import_root and $do_import_by_tag {
     manage_import_keys { $import_root: }
   }
 
