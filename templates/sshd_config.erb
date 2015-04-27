@@ -53,14 +53,14 @@ Subsystem      sftp    <%= @subsystem_sftp %>
 # This three variables UsePAM, PasswordAuthentication and ChallengeResponseAuthentication
 <% if @passwordallowed -%>
 # enable the password authentication.
-<% if @kernel == "Linux"-%>
+<% if @kernel == "Linux" and @osfamily != 'RedHat' -%>
 UsePAM yes
 <%end-%>
 PasswordAuthentication yes
 ChallengeResponseAuthentication yes
 <%else-%>
 # disable the password authentication.
-<% if @kernel == "Linux"-%>
+<% if @kernel == "Linux" and @osfamily != 'RedHat' -%>
 <% if @usepam -%>
 UsePAM yes
 <%else-%>
