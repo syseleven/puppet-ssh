@@ -13,7 +13,7 @@ AddressFamily inet
 <% if @listen_ip.class == Array -%>
 <% @listen_ip.each do |value| -%>
 <% if value == "internal" or value == "external" -%>
-<% if scope.lookupvar('ipaddress_' + value) %>
+<% if scope.lookupvar('ipaddress_' + value) -%>
 ListenAddress <%= scope.lookupvar('ipaddress_' + value) %>
 <% end -%>
 <% else -%>
@@ -22,7 +22,7 @@ ListenAddress <%= value %>
 <% end -%>
 <% else -%>
 <% if @listen_ip == "internal" or @listen_ip == "external" -%>
-<% if scope.lookupvar('ipaddress_' + @listen_ip) %>
+<% if scope.lookupvar('ipaddress_' + @listen_ip) -%>
 ListenAddress <%= scope.lookupvar('ipaddress_' + @listen_ip) %>
 <% end -%>
 <% else -%>
