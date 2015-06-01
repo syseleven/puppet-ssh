@@ -14,13 +14,14 @@ Module to install and manage the openssh server. Supporting sshd_config manageme
     $start_cmd = $ssh::params::start_cmd,
       Start command to use instead of rc-service $service start, default see ssh::params.
     $version = 'installed',
-      Version to install.
     $gentoo_useflags = '',
       Special useflags for Gentoo.
     $listen_ip = 'internal',
       give ip address or 'internal' or 'external', can be single one or a list
     $listen_port = $ssh::params::port
       sshd should listen to this port, default see ssh::params.
+    $address_family = $ssh::params::address_family,
+      defaults to 'inet', see ssh::params
     $subsystem_sftp = $ssh::params::subsystem_sftp,
       sftp subsystem to use, default see ssh::params.
       Will be overwritten if server_sftp_roots is used.

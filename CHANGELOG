@@ -1,3 +1,5 @@
+1.5.0 (5e03b77)
+  - allow to set address_family in sshd_config #pp-2341
 1.4.1 (1bd3f6a)
   - Config: avoid empty lines #pp-2203
 1.4.0 (8421705)

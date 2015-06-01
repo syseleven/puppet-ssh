@@ -8,7 +8,7 @@
 
 Port <%= @listen_port %>
 Protocol 2
-AddressFamily inet
+AddressFamily <%= @address_family %>
 
 <% if @listen_ip.class == Array -%>
 <% @listen_ip.each do |value| -%>

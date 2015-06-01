@@ -17,6 +17,7 @@
 class ssh::params (
   $listen_ip = 'internal',
   $listen_port = '22',
+  $address_family = 'inet',
   $confd = '/etc/ssh',
   $global_known_hosts = '/etc/ssh/ssh_known_hosts',
 ) {
