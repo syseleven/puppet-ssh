@@ -13,7 +13,7 @@ Module to install and manage the openssh server. Supporting sshd_config manageme
       The service name, e.g. sshd for Gentoo, default see ssh::params.
     $start_cmd = $ssh::params::start_cmd,
       Start command to use instead of rc-service $service start, default see ssh::params.
-    $version = 'installed',
+    $version = 'latest',
     $gentoo_useflags = '',
       Special useflags for Gentoo.
     $listen_ip = 'internal',

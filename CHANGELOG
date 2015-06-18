@@ -1,3 +1,5 @@
+1.5.1 (22afca2)
+  - switch back from installed to latest #pp-1981  
 1.5.0 (5e03b77)
   - allow to set address_family in sshd_config #pp-2341
 1.4.1 (1bd3f6a)
