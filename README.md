@@ -5,7 +5,7 @@ Module to install and manage the openssh server. Supporting sshd_config manageme
 * [Official documentation](http://www.openbsd.org/cgi-bin/man.cgi/OpenBSD-current/man8/sshd.8?query=sshd&sec=8)
 * SSH puppet module [changelog](CHANGELOG)
 
-## Parameters
+### Parameters
 
     $package = $ssh::params::package,
       Package name e.g. net-misc/openssh for Gentoo, default see ssh::params.
@@ -16,12 +16,10 @@ Module to install and manage the openssh server. Supporting sshd_config manageme
     $version = 'latest',
     $gentoo_useflags = '',
       Special useflags for Gentoo.
-    $listen_ip = $ssh::params::listen_ip,
-      sshd should listen to this ip, default '0.0.0.0'. If use 'internal' or 'extrenal', ip will be calculated "magically".
-      you can also specify a list of listen_ip's to let sshd listen on more than one address. 'internal' and 'external'
-      are replaced in the list with the same "magickally" thing.
+    $listen_ip = 'internal',
+      give ip address or 'internal' or 'external', can be single one or a list
     $listen_port = $ssh::params::port
-      sshd should listen to this port
+      sshd should listen to this port, default see ssh::params.
     $address_family = $ssh::params::address_family,
       defaults to 'inet', see ssh::params
     $subsystem_sftp = $ssh::params::subsystem_sftp,
@@ -35,12 +33,12 @@ Module to install and manage the openssh server. Supporting sshd_config manageme
       Enable/disable X11Forwarding, man sshd_config.
     $server_noneenabled = false,
       Enable/disable NoneEnabled. This enables/disables encryption.
-    $server_passwordallowed = $ssh::params::server_passwordallowed,
+    $server_passwordallowed = false,
       Enable/disable wheter sshd asks for password or not. man sshd_config. Sets
       UsePAM yes/no
       PasswordAuthentication yes/no
       ChallengeResponseAuthentication yes/no
-    $server_rootallowed = $ssh::params::server_rootallowed,
+    $server_rootallowed = true,
       Enable/disable root login via ssh
     $server_template_vars = undef,
       Userdefined sshd_config parameters. Other than the mentioned above.
@@ -49,7 +47,7 @@ Module to install and manage the openssh server. Supporting sshd_config manageme
       the given user and/or home directory exists or not.
     $server_usepam = undef,
       UsePAM might be set to yes even with passwordallowed false
-    $server_host_keys  = $ssh::params::server_host_keys,
+    $server_host_keys  = [ '/etc/ssh/ssh_host_dsa_key' ],
       List of HostKeys, See man sshd_config.
     $server_ciphers = undef,
       List of supported ciphers,
@@ -65,7 +63,7 @@ Module to install and manage the openssh server. Supporting sshd_config manageme
     $fail2ban_findtime = 600,
     $fail2ban_bantime = 600,
 
-## Sample usage
+### Sample usage
 
 Setting sshd_configs LoginGraceTime to 60 via server_template_vars:
 
@@ -91,18 +89,7 @@ Fix for old ssh clients with error "Failed: SSHProtocolFailure: Algorithm negoti
         server_kexalgorithms: 'default_201411'
         version: 'latest'
 
-## ssh::params
-
-### Parameters
-
-    $listen_port = '22',
-      sshd should listen to this port, default see 22.
-    $confd = '/etc/ssh',
-      Base dir, that contains sshd_config. Because e.g. MacOS use /etc/sshd_config
-    $global_known_hosts = '/etc/ssh/ssh_known_hosts'
-      Full path to global ssh_known_hosts. Almost everywhere the default.
-
-## ssh::remotehost
+## Ssh::remotehost
 
 Allows a custom remotehost ssh config to be set up, for example /root/.ssh/config.
 
@@ -129,7 +116,7 @@ Allows a custom remotehost ssh config to be set up, for example /root/.ssh/confi
             remote_privatekey: 'ehurlghwelrghurelgheurliwgherilgheuiwlgheurilgherlghquerilghledward'
             remote_hostname: 'echolon.nsa.gov'
 
-## ssh::authorized_keys
+## Ssh::authorized_keys
 
 Manage authorized_keys.
 
