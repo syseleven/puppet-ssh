@@ -1,3 +1,5 @@
+1.6.1 (497dc52)
+  - fix fact to use correct defaults for hardware nodes / virtual envs #pp-1065
 1.6.0 (304bfc7)
   - new default values for !'openvz' #pp-1065
 1.5.1 (22afca2)

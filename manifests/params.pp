@@ -7,20 +7,18 @@ class ssh::params (
   $global_known_hosts = '/etc/ssh/ssh_known_hosts',
 ) {
 
-  case $::virtual {
-    'openvz': {
-      $listen_ip = 'internal'
-      $server_passwordallowed = true
-      $server_rootallowed = true
-      $server_host_keys = [ '/etc/ssh/ssh_host_dsa_key' ]
-    }
-    default: {
-      $listen_ip = '0.0.0.0'
-      $server_passwordallowed = true
-      $server_rootallowed = false
-      $server_host_keys = [ '/etc/ssh/ssh_host_dsa_key', '/etc/ssh/ssh_host_rsa_key', '/etc/ssh/ssh_host_ecdsa_key' ]
-    }
+  if $::is_virtual {
+    $listen_ip = 'internal'
+    $server_passwordallowed = true
+    $server_rootallowed = true
+    $server_host_keys = [ '/etc/ssh/ssh_host_dsa_key' ]
+  } else {
+    $listen_ip = '0.0.0.0'
+    $server_passwordallowed = true
+    $server_rootallowed = false
+    $server_host_keys = [ '/etc/ssh/ssh_host_dsa_key', '/etc/ssh/ssh_host_rsa_key', '/etc/ssh/ssh_host_ecdsa_key' ]
   }
+  
 
   case $::operatingsystem {
     'Gentoo': {
