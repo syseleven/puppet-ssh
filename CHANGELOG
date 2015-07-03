@@ -1,3 +1,5 @@
+1.6.0 (304bfc7)
+  - new default values for !'openvz' #pp-1065
 1.5.1 (22afca2)
   - switch back from installed to latest #pp-1981  
 1.5.0 (5e03b77)

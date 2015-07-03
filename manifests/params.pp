@@ -1,26 +1,26 @@
 # Class: ssh::params
 #
-# Set parameters for different OSes
-#
-# Parameters:
-#   $listen_ip = 'internal',
-#     sshd should listen to this ip, default internal. If use internal or extrenal, ip will be calculated "magickally".
-#     you can also specify a list of listen_ip's to let sshd listen on more than one address. "internal" and "external"
-#     are replaced in the list with the same "magickally" thing.
-#   $listen_port = '22',
-#     sshd should listen to this port, default see 22.
-#   $confd = '/etc/ssh',
-#     Base dir, that contains sshd_config. Because e.g. MacOS use /etc/sshd_config
-#   $global_known_hosts = '/etc/ssh/ssh_known_hosts'
-#     Full path to global ssh_known_hosts. Almost everywhere the default.
-#
 class ssh::params (
-  $listen_ip = 'internal',
   $listen_port = '22',
   $address_family = 'inet',
   $confd = '/etc/ssh',
   $global_known_hosts = '/etc/ssh/ssh_known_hosts',
 ) {
+
+  case $::virtual {
+    'openvz': {
+      $listen_ip = 'internal'
+      $server_passwordallowed = true
+      $server_rootallowed = true
+      $server_host_keys = [ '/etc/ssh/ssh_host_dsa_key' ]
+    }
+    default: {
+      $listen_ip = '0.0.0.0'
+      $server_passwordallowed = true
+      $server_rootallowed = false
+      $server_host_keys = [ '/etc/ssh/ssh_host_dsa_key', '/etc/ssh/ssh_host_rsa_key', '/etc/ssh/ssh_host_ecdsa_key' ]
+    }
+  }
 
   case $::operatingsystem {
     'Gentoo': {
