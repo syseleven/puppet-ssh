@@ -33,12 +33,12 @@ Module to install and manage the openssh server. Supporting sshd_config manageme
       Enable/disable X11Forwarding, man sshd_config.
     $server_noneenabled = false,
       Enable/disable NoneEnabled. This enables/disables encryption.
-    $server_passwordallowed = false,
+    $server_passwordallowed = $ssh::params::server_passwordallowed,
       Enable/disable wheter sshd asks for password or not. man sshd_config. Sets
       UsePAM yes/no
       PasswordAuthentication yes/no
       ChallengeResponseAuthentication yes/no
-    $server_rootallowed = true,
+    $server_rootallowed = $ssh::params::server_rootallowed,
       Enable/disable root login via ssh
     $server_template_vars = undef,
       Userdefined sshd_config parameters. Other than the mentioned above.
@@ -47,7 +47,7 @@ Module to install and manage the openssh server. Supporting sshd_config manageme
       the given user and/or home directory exists or not.
     $server_usepam = undef,
       UsePAM might be set to yes even with passwordallowed false
-    $server_host_keys  = [ '/etc/ssh/ssh_host_dsa_key' ],
+    $server_host_keys = $ssh::params::server_host_keys,
       List of HostKeys, See man sshd_config.
     $server_ciphers = undef,
       List of supported ciphers,
