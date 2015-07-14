@@ -11,7 +11,7 @@ class ssh::params () {
     $listen_ip = '0.0.0.0'
     $server_rootallowed = false
     $server_passwordallowed = false
-    $server_host_keys = [ '/etc/ssh/ssh_host_dsa_key', '/etc/ssh/ssh_host_rsa_key', '/etc/ssh/ssh_host_ecdsa_key' ]
+    $server_host_keys = [ '/etc/ssh/ssh_host_dsa_key' ]
   } else {
     $listen_ip = 'internal'
     $server_rootallowed = true
