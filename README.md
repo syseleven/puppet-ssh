@@ -13,7 +13,7 @@ Module to install and manage the openssh server. Supporting sshd_config manageme
       The service name, e.g. sshd for Gentoo, default see ssh::params.
     $start_cmd = $ssh::params::start_cmd,
       Start command to use instead of rc-service $service start, default see ssh::params.
-    $version = 'latest',
+    $version = 'latest_sys11',
     $gentoo_useflags = '',
       Special useflags for Gentoo.
     $listen_ip = 'internal',
@@ -87,7 +87,7 @@ Fix for old ssh clients with error "Failed: SSHProtocolFailure: Algorithm negoti
     classes:
       ssh:
         server_kexalgorithms: 'default_201411'
-        version: 'latest'
+        version: 'latest_sys11'
 
 ## Ssh::remotehost
 

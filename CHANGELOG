@@ -1,3 +1,5 @@
+1.7.0 (322a8a3)
+  - Gentoo: add latest_sys11 and use it as default version pp-2530
 1.6.3 (26ff867)
   - revert host key change for is_virtual, will be done in next version pp-1065
 1.6.2 (27355a8)
