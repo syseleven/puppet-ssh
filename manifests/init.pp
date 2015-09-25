@@ -3,7 +3,6 @@
 class ssh (
   $package = $ssh::params::package,
   $service = $ssh::params::service,
-  $start_cmd = $ssh::params::start_cmd,
   $version = 'latest_sys11',
   $gentoo_useflags = '',
   $listen_ip = 'internal',
@@ -70,3 +69,4 @@ class ssh (
   }->
   anchor { 'ssh::end': }
 }
+

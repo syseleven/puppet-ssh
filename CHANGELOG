@@ -1,7 +1,9 @@
+1.7.1 (d2c202c2)
+  - Remove obsolete restartcmd, fix monitcheck #pp-2506
 1.7.0 (322a8a3)
-  - Gentoo: add latest_sys11 and use it as default version pp-2530
+  - Gentoo: add latest_sys11 and use it as default version #pp-2530
 1.6.3 (26ff867)
-  - revert host key change for is_virtual, will be done in next version pp-1065
+  - revert host key change for is_virtual, will be done in next version #pp-1065
 1.6.2 (27355a8)
   - finally: new default values for !'openvz' #pp-1065
 1.6.1 (497dc52)

@@ -23,16 +23,19 @@ class ssh::params () {
     'Gentoo': {
       $package = 'net-misc/openssh'
       $service = 'sshd'
+      $pid = "/var/run/${service}.pid"
       $subsystem_sftp = '/usr/lib/misc/sftp-server'
     }
     'CentOS': {
       $package = 'openssh-server'
       $service = 'sshd'
+      $pid = "/var/run/${service}.pid"
       $subsystem_sftp = '/usr/libexec/openssh/sftp-server'
     }
     'Debian', 'Ubuntu': {
       $package = 'openssh-server'
       $service = 'ssh'
+      $pid = "/var/run/${service}d.pid"
       $subsystem_sftp = '/usr/lib/sftp-server'
     }
     'Solaris': {
@@ -42,8 +45,6 @@ class ssh::params () {
       fail("Unknown OS: $::operatingsystem")
     }
   }
-
-  $start_cmd = "/etc/init.d/$service restart"
 
   $port = $listen_port
   $global_known_hosts_file = $global_known_hosts

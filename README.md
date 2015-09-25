@@ -1,18 +1,43 @@
 # SSH
 
-Module to install and manage the openssh server. Supporting sshd_config management.
-
 * [Official documentation](http://www.openbsd.org/cgi-bin/man.cgi/OpenBSD-current/man8/sshd.8?query=sshd&sec=8)
-* SSH puppet module [changelog](CHANGELOG)
+* [changelog](CHANGELOG)
 
-### Parameters
+## Sample usage
+
+    classes:
+      ssh:
+
+Setting sshd_configs LoginGraceTime to 60 via server_template_vars:
+
+    classes:
+      ssh:
+        server_template_vars:
+          LoginGraceTime: 60
+
+Using server_sftp_chroots:
+
+Within users home directory, a directors .ssh/ and one other directory (e.g. testuser2) should be created and given permission to, manually.
+
+    classes:
+      ssh:
+        server_sftp_chroots:
+          testuser1: /SOME/WHERE/testuser1 ## /SOME/WHERE must belong to root, testuser1/ to testuser1
+          testuser2: ## Automatically using /home/testuser2
+
+Fix for old ssh clients with error "Failed: SSHProtocolFailure: Algorithm negotiation fail":
+
+    classes:
+      ssh:
+        server_kexalgorithms: 'default_201411'
+        version: 'latest_sys11'
+
+## Parameters
 
     $package = $ssh::params::package,
       Package name e.g. net-misc/openssh for Gentoo, default see ssh::params.
     $service = $ssh::params::service,
       The service name, e.g. sshd for Gentoo, default see ssh::params.
-    $start_cmd = $ssh::params::start_cmd,
-      Start command to use instead of rc-service $service start, default see ssh::params.
     $version = 'latest_sys11',
     $gentoo_useflags = '',
       Special useflags for Gentoo.
@@ -63,31 +88,6 @@ Module to install and manage the openssh server. Supporting sshd_config manageme
     $fail2ban_findtime = 600,
     $fail2ban_bantime = 600,
 
-### Sample usage
-
-Setting sshd_configs LoginGraceTime to 60 via server_template_vars:
-
-    classes:
-      ssh:
-        server_template_vars:
-          LoginGraceTime: 60
-
-Using server_sftp_chroots:
-
-Within users home directory, a directors .ssh/ and one other directory (e.g. testuser2) should be created and given permission to, manually.
-
-    classes:
-      ssh:
-        server_sftp_chroots:
-          testuser1: /SOME/WHERE/testuser1 ## /SOME/WHERE must belong to root, testuser1/ to testuser1
-          testuser2: ## Automatically using /home/testuser2
-
-Fix for old ssh clients with error "Failed: SSHProtocolFailure: Algorithm negotiation fail":
-
-    classes:
-      ssh:
-        server_kexalgorithms: 'default_201411'
-        version: 'latest_sys11'
 
 ## Ssh::remotehost
 
@@ -167,3 +167,24 @@ You can import separate keys as well, or remove keys explicitly.
             key: AA...
             type: rsa
             ensure: absent
+
+## ssh::nagioscheck
+
+This class can be called directly, if you only want do have nagios and zabbix
+handled. Therefore we dont use variables from the params scope.
+
+When using main class, use varibales in there. Vars are then passed to this
+class.
+
+### Parameters
+
+    $service = $ssh::params::service
+    $listen_port = $ssh::params::port
+    $monit_check = 'present'
+      or 'absent' to remove check
+    $monit_tests = ['if 3 restarts within 18 cycles then timeout']
+    $fail2ban_check = 'present',
+    $fail2ban_maxretry = 10,
+    $fail2ban_findtime = 600,
+    $fail2ban_bantime = 600,
+

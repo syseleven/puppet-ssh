@@ -1,10 +1,5 @@
 # Class: ssh::service
 #
-# Service definition for sshd, supporting Solaris and Linux.
-#
-# Parameters:
-#   none
-#
 class ssh::service () {
 
   # pp-942 let the service running though
@@ -28,12 +23,12 @@ class ssh::service () {
     }
   } else {
     service { $ssh::service:
-      ensure      => running,
-      enable      => true,
-      start       => $ssh::start_cmd,
-      hasrestart  => true,
-      hasstatus   => true,
+      ensure     => running,
+      enable     => true,
+      hasrestart => true,
+      hasstatus  => true,
     }
   }
 
 }
+

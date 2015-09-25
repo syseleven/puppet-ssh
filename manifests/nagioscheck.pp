@@ -6,18 +6,6 @@
 # When using main class, use varibales in there. Vars are then passed to this
 # class.
 #
-# Parameters:
-#   $service = $ssh::params::service
-#   $listen_port = $ssh::params::port
-#     Listen port (default 22)
-#   $monit_check = 'present'
-#     or 'absent' to remove check
-#   $monit_tests = ['if 3 restarts within 18 cycles then timeout']
-#   $fail2ban_check = 'present',
-#   $fail2ban_maxretry = 10,
-#   $fail2ban_findtime = 600,
-#   $fail2ban_bantime = 600,
-#
 class ssh::nagioscheck (
   $service = $ssh::params::service,
   $listen_port = $ssh::params::port,
@@ -42,6 +30,7 @@ class ssh::nagioscheck (
     monit::check_process::process_set { $service:
       ensure => $monit_check,
       tests  => $monit_tests,
+      pid    => $ssh::params::pid,
     }
   }
 
@@ -55,3 +44,4 @@ class ssh::nagioscheck (
     }
   }
 }
+
