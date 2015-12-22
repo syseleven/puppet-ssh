@@ -12,7 +12,6 @@ class ssh (
   $global_known_hosts = $ssh::params::global_known_hosts_file,
   $manage_server = true,
   $server_x11forwarding = false,
-  $server_noneenabled = false,
   $server_passwordallowed = $ssh::params::server_passwordallowed,
   $server_rootallowed = $ssh::params::server_rootallowed,
   $server_template_vars = undef,
@@ -42,7 +41,6 @@ class ssh (
   class { 'ssh::package': }->
   class { 'ssh::server::config':
     x11forwarding   => $server_x11forwarding,
-    noneenabled     => $server_noneenabled,
     passwordallowed => $server_passwordallowed,
     rootallowed     => $server_rootallowed,
     template_vars   => $server_template_vars,

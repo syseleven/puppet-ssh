@@ -3,8 +3,6 @@
 # Parameters:
 #   $x11forwarding
 #     Enable/disable X11Forwarding, man sshd_config.
-#   $noneenabled = false,
-#     Enable/disable NoneEnabled. This enables/disables encryption.
 #   $passwordallowed
 #     Enable/disable wheter sshd asks for password or not. man sshd_config. Sets
 #     UsePAM yes/no
@@ -33,7 +31,6 @@
 class ssh::server::config(
   $x11forwarding,
   $passwordallowed,
-  $noneenabled,
   $rootallowed,
   $template_vars,
   $subsystem_sftp,

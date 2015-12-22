@@ -1,3 +1,5 @@
+1.7.2 (b93e0955)
+  – Remove obsolete ssh without encryption option #pp-2793
 1.7.1 (d2c202c2)
   - Remove obsolete restartcmd, fix monitcheck #pp-2506
 1.7.0 (322a8a3)

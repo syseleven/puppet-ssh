@@ -83,9 +83,6 @@ MACs <%= @macs %>
 <% if @real_kexalgorithms -%>
 KexAlgorithms <%= @real_kexalgorithms %>
 <% end %>
-<% if @noneenabled -%>
-NoneEnabled yes
-<%end -%>
 X11Forwarding <%= @x11forwarding and 'yes' or 'no' %>
 <% if @template_vars -%>
 <% @template_vars.each do |key,val| %>

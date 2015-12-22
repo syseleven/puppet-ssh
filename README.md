@@ -56,8 +56,6 @@ Fix for old ssh clients with error "Failed: SSHProtocolFailure: Algorithm negoti
       True, for managing sshd_config by this module.
     $server_x11forwarding = false,
       Enable/disable X11Forwarding, man sshd_config.
-    $server_noneenabled = false,
-      Enable/disable NoneEnabled. This enables/disables encryption.
     $server_passwordallowed = $ssh::params::server_passwordallowed,
       Enable/disable wheter sshd asks for password or not. man sshd_config. Sets
       UsePAM yes/no
