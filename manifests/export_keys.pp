@@ -78,7 +78,7 @@ class ssh::export_keys (
       key    => $export_keys[$name]['key'],
       type   => $key_type,
       name   => $comment,
-      tag    => "${::puppet_environment}$export_tag",
+      tag    => "${::puppet_environment}${export_tag}",
       }
   }
 

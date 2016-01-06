@@ -7,7 +7,7 @@ class ssh::params () {
   $confd = '/etc/ssh'
   $global_known_hosts = '/etc/ssh/ssh_known_hosts'
 
-  if ($::is_virtual == true) or ($::is_virtual == 'true') {
+  if $::is_virtual {
     $listen_ip = '0.0.0.0'
     $server_rootallowed = false
     $server_passwordallowed = false
@@ -42,7 +42,7 @@ class ssh::params () {
       $subsystem_sftp = 'internal-sftp'
     }
     default: {
-      fail("Unknown OS: $::operatingsystem")
+      fail("Unknown OS: ${::operatingsystem}")
     }
   }
 

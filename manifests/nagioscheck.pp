@@ -22,7 +22,7 @@ class ssh::nagioscheck (
       nagios::register_hostgroup {'ssh': }
     }
     else {
-      nagios::register_hostgroup {"ssh$listen_port": }
+      nagios::register_hostgroup {"ssh${listen_port}": }
     }
   }
 

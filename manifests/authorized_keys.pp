@@ -87,7 +87,7 @@ class ssh::authorized_keys (
   #   none
   #
   define manage_import_keys() {
-    Ssh_authorized_key_sys11 <<| tag == "${::puppet_environment}${$name}" |>>
+    Ssh_authorized_key_sys11 <<| tag == "${::puppet_environment}${name}" |>>
   }
 
   if $authorized_keys {
@@ -162,7 +162,7 @@ class ssh::authorized_keys (
 
     if $keyname != '' {
       $export_root_tag = "${::puppet_environment}${export_root}"
-      @@ssh_authorized_key_sys11 { "${keyname}_$hostname":
+      @@ssh_authorized_key_sys11 { "${keyname}_${hostname}":
         type => $keytype,
         key  => $keyvalue,
         tag  => $export_root_tag,

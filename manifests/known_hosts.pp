@@ -92,7 +92,7 @@ class ssh::known_hosts (
       $alias_begin =  ''
       $alias_end =  ''
     } else {
-      $listen_port = ":$ssh::listen_port"
+      $listen_port = ":${ssh::listen_port}"
       $alias_begin =  '['
       $alias_end =  ']'
     }
@@ -101,24 +101,24 @@ class ssh::known_hosts (
       if ! $::ipaddress_internal {
         fail('missing fact ipaddress_internal')
       }
-      $host_aliases =  ["$alias_begin$::ipaddress_internal$alias_end$listen_port", "$alias_begin${hostname}$alias_end$listen_port"]
+      $host_aliases =  ["${alias_begin}${::ipaddress_internal}${alias_end}${listen_port}", "${alias_begin}${hostname}${alias_end}${listen_port}"]
 
     } elsif ! $host_aliases_use_internal_address and $host_aliases_use_external_address {
       if ! $::ipaddress_external {
         fail('missing fact ipaddress_external')
       }
-      $host_aliases =  ["$alias_begin$::ipaddress_external$alias_end$listen_port", "$alias_begin${hostname}$alias_end$listen_port"]
+      $host_aliases =  ["${alias_begin}${::ipaddress_external}${alias_end}${listen_port}", "${alias_begin}${hostname}${alias_end}${listen_port}"]
 
     } elsif $host_aliases_use_internal_address and $host_aliases_use_external_address {
       if ! $::ipaddress_internal or ! $::ipaddress_external {
-        fail("missing fact ipaddress_internal ('$::ipaddress_internal') or ipaddress_external ('$::ipaddress_external')")
+        fail("missing fact ipaddress_internal ('${::ipaddress_internal}') or ipaddress_external ('${::ipaddress_external}')")
       }
-      $host_aliases =  ["$alias_begin$::ipaddress_external$alias_end$listen_port", "$alias_begin$::ipaddress_internal$alias_end$listen_port", "$alias_begin${hostname}$alias_end$listen_port"]
+      $host_aliases =  ["${alias_begin}${::ipaddress_external}${alias_end}${listen_port}", "${alias_begin}${::ipaddress_internal}${alias_end}${listen_port}", "${alias_begin}${hostname}${alias_end}${listen_port}"]
     } else {
       if $ssh::listen_ip == '0.0.0.0' {
-        $host_aliases = ["$alias_begin${hostname}$alias_end$listen_port"]
+        $host_aliases = ["${alias_begin}${hostname}${alias_end}${listen_port}"]
       } else {
-        $host_aliases = ["$alias_begin${ssh::listen_ip}$alias_end$listen_port", "$alias_begin${hostname}$alias_end$listen_port"]
+        $host_aliases = ["${alias_begin}${ssh::listen_ip}${alias_end}${listen_port}", "${alias_begin}${hostname}${alias_end}${listen_port}"]
       }
     }
 
