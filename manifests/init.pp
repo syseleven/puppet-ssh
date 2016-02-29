@@ -27,6 +27,8 @@ class ssh (
   $fail2ban_maxretry = 10,
   $fail2ban_findtime = 600,
   $fail2ban_bantime = 600,
+  $check_sftp_logins = true,
+  $sftp_logins = undef,
 ) inherits ssh::params {
 
   # pp-909 if we have a list of sftp_chroots, we have to use internal-sftp,
@@ -64,6 +66,8 @@ class ssh (
     fail2ban_maxretry => $fail2ban_maxretry,
     fail2ban_findtime => $fail2ban_findtime,
     fail2ban_bantime  => $fail2ban_bantime,
+    sftp_logins       => $sftp_logins,
+    check_sftp_logins => $check_sftp_logins,
   }->
   anchor { 'ssh::end': }
 }

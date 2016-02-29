@@ -85,6 +85,10 @@ Fix for old ssh clients with error "Failed: SSHProtocolFailure: Algorithm negoti
     $fail2ban_maxretry = 10,
     $fail2ban_findtime = 600,
     $fail2ban_bantime = 600,
+    $check_sftp_logins = true,
+      Enable or disable the nagioscheck
+    $sftp_logins = undef,
+      The list of accounts nagios should check
 
 
 ## Ssh::remotehost
@@ -185,4 +189,8 @@ class.
     $fail2ban_maxretry = 10,
     $fail2ban_findtime = 600,
     $fail2ban_bantime = 600,
+    $check_sftp_logins = true,
+      Enable or disable the nagioscheck
+    $sftp_logins = undef,
+      The list of accounts nagios should check
 
