@@ -18,9 +18,16 @@ user=''
 ##
 ## configure users
 ##
-<% (scope['ssh::server_sftp_chroots'].keys.flatten.join(':')+':'+sftp_logins.flatten.join(':')).split(':').sort.uniq.each do |username| -%>
-user="${user} <%= ipaddress_external %>|<%= username %>|/var/nagios/home/.ssh/id_rsa|5"
-<% end -%>
+<%- if scope['ssh::server_sftp_chroots'] -%>
+  <%- usernames = scope['ssh::server_sftp_chroots'].keys.flatten.join(':') -%>
+<%- end -%>
+<%- if @sftp_logins -%>
+  <%- usernames += ':'+@sftp_logins.keys.flatten.join(':') -%>
+<%- end -%>
+
+<%- usernames.split(':').sort.uniq.each do |username| -%>
+    user="${user} <%= @ipaddress_external %>|<%= username %>|/var/nagios/home/.ssh/id_rsa|5"
+<%- end -%>
 
 ##
 ## loop user
