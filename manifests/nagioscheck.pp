@@ -63,14 +63,14 @@ class ssh::nagioscheck (
       include nagios::nrpe
       file { "${nagios::nrpe::plugindir}/check_sftp_logins":
         ensure  => present,
-        owner   => 'nagios',
+        owner   => $nagios::params::nagios_user,
         group   => 'root',
         mode    => '0750',
         content => template('ssh/check_sftp_logins.erb'),
       }->
       file { "${nagios::nrpe::plugindir}/check_sftp_login.py":
         ensure => present,
-        owner  => 'nagios',
+        owner  => $nagios::params::nagios_user,
         group  => 'root',
         mode   => '0750',
         source => 'puppet:///modules/ssh/check_sftp_login.py',
@@ -79,7 +79,7 @@ class ssh::nagioscheck (
       # ensure existing keypair
       file { "$nagios::params::nagios_home/.ssh":
         ensure => directory,
-        owner  => 'nagios',
+        owner  => $nagios::params::nagios_user,
         group  => 'root',
         mode   => '0750',
       }->
