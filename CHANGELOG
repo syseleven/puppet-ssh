@@ -1,3 +1,5 @@
+1.8.0
+  - CHANGE VE default host keys to support modern algos, remove dsa
 1.7.2 (b93e0955)
   – Remove obsolete ssh without encryption option #pp-2793
 1.7.1 (d2c202c2)
