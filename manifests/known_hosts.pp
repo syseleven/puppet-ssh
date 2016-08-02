@@ -122,9 +122,16 @@ class ssh::known_hosts (
       }
     }
 
-    @@sshkey { $hostname:
-      type         => dsa,
+    @@sshkey { "${hostname}-dsa":
+      type         => 'dsa',
       key          => $::sshdsakey,
+      tag          => $export_tag,
+      host_aliases => $host_aliases,
+    }
+
+    @@sshkey { "${hostname}-rsa":
+      type         => 'rsa',
+      key          => $::sshrsakey,
       tag          => $export_tag,
       host_aliases => $host_aliases,
     }
