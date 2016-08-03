@@ -21,6 +21,7 @@ class ssh (
   $server_ciphers = undef,
   $server_macs = undef,
   $server_kexalgorithms = undef,
+  $server_log_level = 'INFO',
   $monit_check = 'present',
   $monit_tests = ['if 3 restarts within 18 cycles then timeout'],
   $fail2ban_check = 'present',
@@ -53,6 +54,7 @@ class ssh (
     ciphers         => $server_ciphers,
     macs            => $server_macs,
     kexalgorithms   => $server_kexalgorithms,
+    log_level       => $server_log_level,
   }->
   class { 'ssh::service':
     subscribe => Class['ssh::package', 'ssh::server::config'],

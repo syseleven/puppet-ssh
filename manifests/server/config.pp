@@ -27,6 +27,8 @@
 #     List of enabled MACs.
 #   $kexalgorithms = undef,
 #     List of enabled KexAlgorithms
+#   $log_level = undef,
+#     Log level
 #
 class ssh::server::config(
   $x11forwarding,
@@ -40,6 +42,7 @@ class ssh::server::config(
   $ciphers,
   $macs,
   $kexalgorithms,
+  $log_level,
 ) {
 
   $real_kexalgorithms = $kexalgorithms ? {
