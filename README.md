@@ -25,6 +25,14 @@ Within users home directory, a directors .ssh/ and one other directory (e.g. tes
           testuser1: /SOME/WHERE/testuser1 ## /SOME/WHERE must belong to root, testuser1/ to testuser1
           testuser2: ## Automatically using /home/testuser2
 
+If you want to add more settings to a specific user you can do it like this, but keep in mind that there is no syntax check:
+
+    classes:
+      ssh:
+        server_sftp_chroots:
+          testuser:
+            PasswordAuthentication: 'yes'
+
 Fix for old ssh clients with error "Failed: SSHProtocolFailure: Algorithm negotiation fail":
 
     classes:

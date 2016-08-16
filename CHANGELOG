@@ -1,3 +1,5 @@
+1.8.2
+  - Allow Password for single user #pp-3203
 1.8.1
   - Add parameter for managing log_level, default is INFO
 1.8.0

@@ -88,8 +88,40 @@ X11Forwarding <%= @x11forwarding and 'yes' or 'no' %>
 <% if @template_vars -%>
 <% @template_vars.each do |key,val| %>
 <%= key%> <%= val%>
-<%end -%>
-<%end -%>
+<% end -%>
+<% end -%>
 <% if @sftp_chroots -%>
-<%= scope.function_template(["ssh/sshd_sftp_chroot.erb"]) %>
-<%end -%>
+
+<% @sftp_chroots.each do |username,values| -%>
+Match User <%= username %>
+<% if values -%>
+<% if values.kind_of?(Hash) -%>
+<% if not values["ChrootDirectory"] -%>
+  ChrootDirectory           /home/<%= username %>
+<% end -%>
+<% if not values["ForceCommand"] -%>
+  ForceCommand              internal-sftp
+<% end -%>
+<% if not values["X11Forwarding"] -%>
+  X11Forwarding             no
+<% end -%>
+<% if not values["AllowTcpForwarding"] -%>
+  AllowTcpForwarding        no
+<% end -%>
+<% values.each do |k,v| -%>
+  <%= k.ljust(25) %> <%= v %>
+<% end -%>
+<% else -%>
+  ChrootDirectory           <%= values %>
+  ForceCommand              internal-sftp
+  X11Forwarding             no
+  AllowTcpForwarding        no
+<% end -%>
+<% else -%>
+  ChrootDirectory           /home/<%= username %>
+  ForceCommand              internal-sftp
+  X11Forwarding             no
+  AllowTcpForwarding        no
+<% end -%>
+<% end -%>
+<% end -%>
