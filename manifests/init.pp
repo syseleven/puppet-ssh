@@ -4,7 +4,7 @@ class ssh (
   $package = $ssh::params::package,
   $service = $ssh::params::service,
   $version = 'latest_sys11',
-  $gentoo_useflags = '',
+  $gentoo_useflags = false,
   $listen_ip = 'internal',
   $listen_port = $ssh::params::port,
   $address_family = $ssh::params::address_family,

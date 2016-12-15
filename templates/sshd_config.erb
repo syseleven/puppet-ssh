@@ -6,12 +6,12 @@
 
 # This sshd was compiled with PATH=/usr/local/bin:/bin:/usr/bin
 
-Port <%= @listen_port %>
+Port <%= scope['ssh::listen_port'] %>
 Protocol 2
-AddressFamily <%= @address_family %>
+AddressFamily <%= scope['ssh::address_family'] %>
 
-<% if @listen_ip.class == Array -%>
-<% @listen_ip.each do |value| -%>
+<% if scope['ssh::listen_ip'].class == Array -%>
+<% scope['ssh::listen_ip'].each do |value| -%>
 <% if value == "internal" or value == "external" -%>
 <% if scope.lookupvar('ipaddress_' + value) -%>
 ListenAddress <%= scope.lookupvar('ipaddress_' + value) %>
@@ -21,12 +21,12 @@ ListenAddress <%= value %>
 <% end -%>
 <% end -%>
 <% else -%>
-<% if @listen_ip == "internal" or @listen_ip == "external" -%>
-<% if scope.lookupvar('ipaddress_' + @listen_ip) -%>
-ListenAddress <%= scope.lookupvar('ipaddress_' + @listen_ip) %>
+<% if scope['ssh::listen_ip'] == "internal" or scope['ssh::listen_ip'] == "external" -%>
+<% if scope.lookupvar('ipaddress_' + scope['ssh::listen_ip']) -%>
+ListenAddress <%= scope.lookupvar('ipaddress_' + scope['ssh::listen_ip']) %>
 <% end -%>
 <% else -%>
-ListenAddress <%= @listen_ip %>
+ListenAddress <%= scope['ssh::listen_ip'] %>
 <% end -%>
 <% end -%>
 
