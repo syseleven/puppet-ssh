@@ -47,7 +47,7 @@ Fix for old ssh clients with error "Failed: SSHProtocolFailure: Algorithm negoti
     $service = $ssh::params::service,
       The service name, e.g. sshd for Gentoo, default see ssh::params.
     $version = 'latest_sys11',
-    $gentoo_useflags = '',
+    $gentoo_useflags = undef,
       Special useflags for Gentoo.
     $listen_ip = 'internal',
       give ip address or 'internal' or 'external', can be single one or a list

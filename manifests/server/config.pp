@@ -43,6 +43,9 @@ class ssh::server::config(
   $macs,
   $kexalgorithms,
   $log_level,
+  $listen_ip,
+  $listen_port,
+  $address_family,
 ) {
 
   $real_kexalgorithms = $kexalgorithms ? {

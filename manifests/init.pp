@@ -4,7 +4,7 @@ class ssh (
   $package = $ssh::params::package,
   $service = $ssh::params::service,
   $version = 'latest_sys11',
-  $gentoo_useflags = '',
+  $gentoo_useflags = undef,
   $listen_ip = 'internal',
   $listen_port = $ssh::params::port,
   $address_family = $ssh::params::address_family,
@@ -55,6 +55,10 @@ class ssh (
     macs            => $server_macs,
     kexalgorithms   => $server_kexalgorithms,
     log_level       => $server_log_level,
+    listen_ip       => $listen_ip,
+    listen_port     => $listen_port,
+    address_family  => $address_family,
+
   }->
   class { 'ssh::service':
     subscribe => Class['ssh::package', 'ssh::server::config'],

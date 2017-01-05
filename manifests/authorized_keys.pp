@@ -6,9 +6,9 @@
 # Parameters:
 #   $authorized_keys = undef
 #     hash of authorized keys to be deployed
-#   $import_root = false
-#     String/List of tags which might lead to imported ssh authorized keys for root user
-#   $export_root = false
+#   $import_root = []
+#     List of tags which might lead to imported ssh authorized keys for root user
+#   $export_root = ''
 #     String of tag to be exported
 #   $hostname = $sys11name
 #     used as resource title for authorized keys, must be unique with keyname
@@ -37,11 +37,15 @@
 #
 class ssh::authorized_keys (
   $authorized_keys = undef,
-  $import_root = false,
-  $export_root = false,
+  $import_root = [],
+  $export_root = '',
   $hostname = $sys11name,
   $purge = false, ####### Should be false, since it is possible empty roots authorized_keys ########
 ) {
+
+  validate_array($import_root)
+  validate_string($export_root)
+
   # define manage_authorized_keys:
   #
   # Parameters:
@@ -148,7 +152,7 @@ class ssh::authorized_keys (
   }
   # /Holy shit... what are you doing?
 
-  if $export_root {
+  if ! empty($export_root) {
     if $::root_ssh_rsa_pub_key != '' {
       $keyname = strip(values_at(split($::root_ssh_rsa_pub_key, ' '), 2))
       $keyvalue = values_at(split($::root_ssh_rsa_pub_key, ' '), 1)
@@ -173,7 +177,7 @@ class ssh::authorized_keys (
       }
     }
 
-  if $import_root and $do_import_by_tag {
+  if ! empty($import_root) and $do_import_by_tag {
     manage_import_keys { $import_root: }
   }
 
