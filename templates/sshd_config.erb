@@ -94,7 +94,7 @@ X11Forwarding <%= @x11forwarding and 'yes' or 'no' %>
 
 <% @sftp_chroots.each do |username,values| -%>
 Match User <%= username %>
-<% if values -%>
+<% if values and ![nil, '', :undef].include?(values)-%>
 <% if values.kind_of?(Hash) -%>
 <% if not values["ChrootDirectory"] -%>
   ChrootDirectory           /home/<%= username %>

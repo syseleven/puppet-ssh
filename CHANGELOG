@@ -1,3 +1,5 @@
+1.9.2
+  - Use proper undef comparison #pp-3469
 1.9.1
   - Fix parameter validation #pp-3402
 1.9
