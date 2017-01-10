@@ -93,8 +93,8 @@ class ssh::nagioscheck (
         nagios::register_hostgroup { 'sftp-logins': }
       }
     } else {
-      if ! defined(Nagios::Hostgroup::Unregister_hostgroup['sftp-logins']) {
-        nagios::hostgroup::unregister_hostgroup { 'sftp-logins':  }
+      if ! defined(Nagios::Unregister_hostgroup['sftp-logins']) {
+        nagios::unregister_hostgroup { 'sftp-logins':  }
       }
     }
   }
