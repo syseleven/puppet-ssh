@@ -20,9 +20,10 @@ class ssh::nagioscheck (
 ) inherits ssh::params {
   # validate
   validate_bool ( $check_sftp_logins )
+  validate_integer($listen_port)
 
   if defined(Class['nagios::nrpe']) {
-    if ($listen_port == '22') {
+    if (0 + $listen_port) == 22 {
       nagios::register_hostgroup {'ssh': }
     }
     else {

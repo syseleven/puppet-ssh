@@ -32,6 +32,8 @@ class ssh (
   $sftp_logins = undef,
 ) inherits ssh::params {
 
+  validate_integer($listen_port)
+
   # pp-909 if we have a list of sftp_chroots, we have to use internal-sftp,
   # no matter what is configured via params
   if $server_sftp_chroots {

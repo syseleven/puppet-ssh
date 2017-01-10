@@ -86,7 +86,7 @@ class ssh::known_hosts (
 
   if $export {
     $export_tag = "${::puppet_environment}${export}"
-    if $ssh::listen_port == '22' {
+    if (0 + $ssh::listen_port) == 22 {
       # most ugly hack ever seen, but we need it because kvm_hosts listen on 0.0.0.0
       $listen_port = ''
       $alias_begin =  ''

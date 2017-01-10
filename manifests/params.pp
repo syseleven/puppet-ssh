@@ -2,7 +2,7 @@
 #
 class ssh::params () {
 
-  $listen_port = '22'
+  $listen_port = 22
   $address_family = 'inet'
   $confd = '/etc/ssh'
   $global_known_hosts = '/etc/ssh/ssh_known_hosts'
