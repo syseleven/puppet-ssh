@@ -32,7 +32,7 @@ class ssh::nagioscheck (
   }
 
   if defined(Class['monit']) {
-    monit::check_process::process_set { $service:
+    monit::check_process { $service:
       ensure => $monit_check,
       tests  => $monit_tests,
       pid    => $ssh::params::pid,
@@ -41,7 +41,7 @@ class ssh::nagioscheck (
 
   if $::operatingsystem == 'gentoo' {
     include fail2ban
-    fail2ban::filter::filter_set { 'sshd':
+    fail2ban::filter { 'sshd':
       ensure   => $fail2ban_check,
       maxretry => $fail2ban_maxretry,
       findtime => $fail2ban_findtime,
