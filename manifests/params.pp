@@ -36,9 +36,6 @@ class ssh::params () {
       $pid = "/var/run/${service}d.pid"
       $subsystem_sftp = '/usr/lib/sftp-server'
     }
-    'Solaris': {
-      $subsystem_sftp = 'internal-sftp'
-    }
     default: {
       fail("Unknown OS: ${::operatingsystem}")
     }

@@ -3,7 +3,7 @@
 class ssh (
   $package = $ssh::params::package,
   $service = $ssh::params::service,
-  $version = 'latest_sys11',
+  $version = installed,
   $gentoo_useflags = undef,
   $listen_ip = 'internal',
   $listen_port = $ssh::params::port,
@@ -43,7 +43,9 @@ class ssh (
   }
 
   anchor { 'ssh::start': }->
-  class { 'ssh::package': }->
+  class { 'ssh::package':
+    version => $version,
+  }->
   class { 'ssh::server::config':
     x11forwarding   => $server_x11forwarding,
     passwordallowed => $server_passwordallowed,
