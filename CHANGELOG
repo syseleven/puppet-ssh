@@ -1,3 +1,5 @@
+1.9.5
+  - Rename export parameter to export_host #pp-3607
 1.9.4
   - Fix defined type defined inside a class #pp-3559
 1.9.3

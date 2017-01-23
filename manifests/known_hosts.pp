@@ -13,7 +13,7 @@
 #     Hash of known hosts
 #   $import = false,
 #     Name of tag for external resource. Will be prepended by environment automatically. e.g. productionYOURCHOICE.
-#   $export = false,
+#   $export_host = false,
 #     Name of tag for external resource. Will be prepended by environment automatically. e.g. productionYOURCHOICE.
 #   $hostname = $sys11name,
 #     Hostname.
@@ -28,7 +28,7 @@
 class ssh::known_hosts (
   $known_hosts = undef,
   $import = false,
-  $export = false,
+  $export_host = false,
   $hostname = $sys11name,
   $purge = true,
   $host_aliases_use_internal_address = false,
@@ -48,8 +48,8 @@ class ssh::known_hosts (
     }
   }
 
-  if $export {
-    $export_tag = "${::puppet_environment}${export}"
+  if $export_host {
+    $export_tag = "${::puppet_environment}${export_host}"
     if (0 + $ssh::listen_port) == 22 {
       # most ugly hack ever seen, but we need it because kvm_hosts listen on 0.0.0.0
       $listen_port = ''
