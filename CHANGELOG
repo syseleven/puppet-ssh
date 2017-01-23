@@ -1,3 +1,5 @@
+1.9.4
+  - Fix defined type defined inside a class #pp-3559
 1.9.3
   - Try to verify that listen_port is an integer and fail safely #pp-3493
 1.9.2

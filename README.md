@@ -98,34 +98,6 @@ Fix for old ssh clients with error "Failed: SSHProtocolFailure: Algorithm negoti
     $sftp_logins = undef,
       The list of accounts nagios should check
 
-
-## Ssh::remotehost
-
-Allows a custom remotehost ssh config to be set up, for example /root/.ssh/config.
-
-### Parameters
-
-    $unix_user = 'root',
-    $remote_hostname = undef,
-    $remote_username = 'root',
-    $remote_port = 22,
-    $remote_privatekey = undef
-      Content of the private key to use
-    $remote_connecttimeout = 20,
-    $ssh_config_dir = undef,
-    $operation = 'add',
-      add or delete the entry
-
-### Sample Usage
-
-    classes:
-      ssh:
-        remotehost:
-          'nsa':
-            remote_username: 'edward'
-            remote_privatekey: 'ehurlghwelrghurelgheurliwgherilgheuiwlgheurilgherlghquerilghledward'
-            remote_hostname: 'echolon.nsa.gov'
-
 ## Ssh::authorized_keys
 
 Manage authorized_keys.

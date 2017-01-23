@@ -34,42 +34,6 @@ class ssh::known_hosts (
   $host_aliases_use_internal_address = false,
   $host_aliases_use_external_address = false,
 ) inherits ssh {
-  # define manage_known_hosts:
-  #
-  # Parameters:
-  #   known_hosts
-  #     Hash of hashes :-O
-  #
-  define manage_known_hosts($known_hosts) {
-    if $known_hosts[$name]['type'] {
-      $key_type = $known_hosts[$name]['type']
-    } else {
-      $key_type = 'dsa'
-    }
-
-    if $known_hosts[$name]['ensure'] {
-      $ensure = $known_hosts[$name]['ensure']
-    } else {
-      $ensure = 'present'
-    }
-
-    sshkey { $name:
-      ensure       => $ensure,
-      name         => $name,
-      key          => $known_hosts[$name]['key'],
-      type         => $key_type,
-      host_aliases => $known_hosts[$name]['host_aliases'],
-    }
-  }
-
-  # define manage_import_known_hosts:
-  #
-  # Parameters:
-  #   none
-  #
-  define manage_import_known_hosts() {
-    Sshkey <<| tag == "${::puppet_environment}${name}" |>>
-  }
 
   # working around PUP-1177
   file { $ssh::global_known_hosts:
@@ -79,7 +43,7 @@ class ssh::known_hosts (
 
   if $known_hosts {
     $host_key_keys = keys($known_hosts)
-    manage_known_hosts { $host_key_keys:
+    ssh::manage_known_hosts { $host_key_keys:
       known_hosts => $known_hosts,
     }
   }
@@ -138,7 +102,7 @@ class ssh::known_hosts (
   }
 
   if $import {
-    manage_import_known_hosts { $import: }
+    ssh::manage_import_known_hosts { $import: }
   }
 
   if $purge {
@@ -146,5 +110,5 @@ class ssh::known_hosts (
       purge => true
     }
   }
-
 }
+

@@ -46,73 +46,10 @@ class ssh::authorized_keys (
   validate_array($import_root)
   validate_string($export_root)
 
-  # define manage_authorized_keys:
-  #
-  # Parameters:
-  #   authorized_keys
-  #     Hash of hashs :-O
-  #
-  define manage_authorized_keys($authorized_keys) {
-    if $authorized_keys[$name]['type'] {
-      $key_type = $authorized_keys[$name]['type']
-    } else {
-      $key_type = 'rsa'
-    }
-
-    if $authorized_keys[$name]['ensure'] {
-      $ensure = $authorized_keys[$name]['ensure']
-    } else {
-      $ensure = 'present'
-    }
-
-    if $authorized_keys[$name]['user'] {
-      $user = $authorized_keys[$name]['user']
-      $comment = $name
-    } elsif $name =~ /^([^_]+)_(.*)$/ {
-      $user = $1
-      $comment = $2
-    } else {
-      $user = $name
-      $comment = $name
-    }
-
-    ssh_authorized_key_sys11 { $name:
-      ensure => $ensure,
-      user   => $user,
-      key    => $authorized_keys[$name]['key'],
-      type   => $key_type,
-      name   => $comment,
-      }
-  }
-
-  # define manage_import_keys:
-  #
-  # Parameters:
-  #   none
-  #
-  define manage_import_keys() {
-    Ssh_authorized_key_sys11 <<| tag == "${::puppet_environment}${name}" |>>
-  }
-
   if $authorized_keys {
     $host_key_keys = keys($authorized_keys)
-    manage_authorized_keys { $host_key_keys:
+    ssh::manage_authorized_keys { $host_key_keys:
       authorized_keys => $authorized_keys,
-    }
-  }
-
-  # define manage_config_auth_keys
-  #
-  # Parameters:
-  #   $authorized_keys
-  #     hash of groups and ssh public keys
-  #     See ssh::config_auth_keys "Sample Usage"
-  define manage_config_auth_keys($authorized_keys) {
-    if $authorized_keys[$name] {
-      $host_key_keys = keys($authorized_keys[$name])
-      manage_authorized_keys { $host_key_keys:
-        authorized_keys => $authorized_keys[$name],
-      }
     }
   }
 
@@ -140,7 +77,7 @@ class ssh::authorized_keys (
     include ssh::config_auth_keys
     $defined_auth_keys = $ssh::config_auth_keys::authorized_keys
     if $defined_auth_keys {
-      manage_config_auth_keys { $import_root:
+      ssh::manage_config_auth_keys { $import_root:
         authorized_keys => $defined_auth_keys,
       }
       $do_import_by_tag = false
@@ -178,7 +115,7 @@ class ssh::authorized_keys (
     }
 
   if ! empty($import_root) and $do_import_by_tag {
-    manage_import_keys { $import_root: }
+    ssh::manage_import_keys { $import_root: }
   }
 
   if $purge {
@@ -187,3 +124,4 @@ class ssh::authorized_keys (
     }
   }
 }
+
