@@ -90,7 +90,7 @@ class ssh::authorized_keys (
   # /Holy shit... what are you doing?
 
   if ! empty($export_root) {
-    if $::root_ssh_rsa_pub_key != '' {
+    if $::root_ssh_rsa_pub_key {
       $keyname = strip(values_at(split($::root_ssh_rsa_pub_key, ' '), 2))
       $keyvalue = values_at(split($::root_ssh_rsa_pub_key, ' '), 1)
       $keytype  = values_at(split($::root_ssh_rsa_pub_key, ' '), 0)

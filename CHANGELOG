@@ -1,3 +1,5 @@
+1.10.1
+  - Fix check for root_ssh_rsa_pub_key #pp-3615
 1.10
   - Fix version_real in package.pp #pp-3606
   -- Removes feature of latest_sys11 (it never worked)
