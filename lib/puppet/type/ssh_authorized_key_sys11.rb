@@ -1,5 +1,4 @@
-module Puppet
-  newtype(:ssh_authorized_key_sys11) do
+Puppet::Type.newtype(:ssh_authorized_key_sys11) do
     @doc = "Manages SSH authorized keys. Currently only type 2 keys are
     supported.
 
@@ -112,5 +111,4 @@ module Puppet
       # If neither target nor user is defined, this is an error
       raise Puppet::Error, "Attribute 'user' or 'target' is mandatory"
     end
-  end
 end
