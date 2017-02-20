@@ -10,7 +10,7 @@
 #     List of tags which might lead to imported ssh authorized keys for root user
 #   $export_root = ''
 #     String of tag to be exported
-#   $hostname = $sys11name
+#   $hostname = $::trusted['certname']
 #     used as resource title for authorized keys, must be unique with keyname
 #   $purge = false
 #     Only purges root's authorized_keys.
@@ -39,7 +39,7 @@ class ssh::authorized_keys (
   $authorized_keys = undef,
   $import_root = [],
   $export_root = '',
-  $hostname = $sys11name,
+  $hostname = $::trusted['certname'],
   $purge = false, ####### Should be false, since it is possible empty roots authorized_keys ########
 ) {
 

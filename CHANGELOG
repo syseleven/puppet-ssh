@@ -1,3 +1,5 @@
+1.11
+  - Use ::trusted['certname'] instead of $::sys11name
 1.10.1
   - Fix check for root_ssh_rsa_pub_key #pp-3615
 1.10

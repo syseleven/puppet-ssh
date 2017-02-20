@@ -15,7 +15,7 @@
 #     Name of tag for external resource. Will be prepended by environment automatically. e.g. productionYOURCHOICE.
 #   $export_host = false,
 #     Name of tag for external resource. Will be prepended by environment automatically. e.g. productionYOURCHOICE.
-#   $hostname = $sys11name,
+#   $hostname = $::trusted['certname'],
 #     Hostname.
 #   $purge = true,
 #     Purge all entries not defined by this class. Local changes as well.
@@ -29,7 +29,7 @@ class ssh::known_hosts (
   $known_hosts = undef,
   $import = false,
   $export_host = false,
-  $hostname = $sys11name,
+  $hostname = $::trusted['certname'],
   $purge = true,
   $host_aliases_use_internal_address = false,
   $host_aliases_use_external_address = false,
