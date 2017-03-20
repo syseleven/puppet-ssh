@@ -1,3 +1,5 @@
+1.12
+  - Sort sftp_chroots #pp-3760
 1.11
   - Use ::trusted['certname'] instead of $::sys11name
 1.10.1
