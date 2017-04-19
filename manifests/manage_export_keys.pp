@@ -42,7 +42,7 @@ define ssh::manage_export_keys($export_keys, $default_export_tag) {
     key    => $export_keys[$name]['key'],
     type   => $key_type,
     name   => $comment,
-    tag    => "${::puppet_environment}${export_tag}",
+    tag    => "${::environment}${export_tag}",
   }
 }
 

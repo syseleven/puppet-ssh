@@ -102,7 +102,7 @@ class ssh::authorized_keys (
     }
 
     if $keyname != '' {
-      $export_root_tag = "${::puppet_environment}${export_root}"
+      $export_root_tag = "${::environment}${export_root}"
       @@ssh_authorized_key_sys11 { "${keyname}_${hostname}":
         type => $keytype,
         key  => $keyvalue,

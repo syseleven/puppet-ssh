@@ -1,3 +1,5 @@
+1.13
+  - Switch from $::puppet_environment to $::environment #pp-3831
 1.12
   - Sort sftp_chroots #pp-3760
 1.11
