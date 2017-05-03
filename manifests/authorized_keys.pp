@@ -1,17 +1,10 @@
 # Class ssh::authorized_keys
 #
-# This class deploys authorized keys for specific users and can export/import
-# the root user's public key for certain patterns ($export_root, $import_root)
+# This class deploys authorized keys for specific users
 #
 # Parameters:
 #   $authorized_keys = undef
 #     hash of authorized keys to be deployed
-#   $import_root = []
-#     List of tags which might lead to imported ssh authorized keys for root user
-#   $export_root = ''
-#     String of tag to be exported
-#   $hostname = $::trusted['certname']
-#     used as resource title for authorized keys, must be unique with keyname
 #   $purge = false
 #     Only purges root's authorized_keys.
 #     Be careful, if purge == true and no keys are specified or imported,
@@ -21,10 +14,6 @@
 # Sample Usage:
 #   ssh::authorized_keys:
 #     purge: true
-#     export_root: makevps
-#     import_root:
-#       - makevps
-#       - makevps2
 #     authorized_keys:
 #        'root_sandres':
 #          key: AAAAB3NzaC1yc2EAAAABIwAAAQEA5rKU2+4WlWxSoXg22Vciq88yxxr22LdAGD8HSPjOQfDxRvdIPJ4EDu6sqesehpJdOoSvOj+lxX8YbIqORpQlqBVRV7sUdiYGTRGgb7jBuPZFTVpl/Q5mIsFuv1odWwx3A12JrniQlo2GtJ/R7v0Y9JWdYsRB5QNW8Zx6pceu/UJM66lsvvFk8N2SzZGr2TWJDOrWvkicTTTynKHF37Znn+wbRJOQEm4jYLW1IXHz/6/StD+pPcn0QMjt1t4ixxXv9F+Xo3nDpKsXd0qGbvvfzBJAC7y/0y6QT2n9xyz1qr69uyaz/WDD/sRVROyLFKBDl2CxplFN2if/Wu1QhyP9qw==
@@ -36,89 +25,42 @@
 #          ensure: absent
 #
 class ssh::authorized_keys (
-  $authorized_keys = undef,
-  $import_root = [],
-  $export_root = '',
-  $hostname = $::trusted['certname'],
-  $purge = false, ####### Should be false, since it is possible empty roots authorized_keys ########
+  Hash    $authorized_keys,
+  Boolean $purge = false, ####### Should be false, since it is possible empty roots authorized_keys ########
 ) {
 
-  validate_array($import_root)
-  validate_string($export_root)
-
-  if $authorized_keys {
-    $host_key_keys = keys($authorized_keys)
-    ssh::manage_authorized_keys { $host_key_keys:
-      authorized_keys => $authorized_keys,
+  $authorized_keys.each |$keyname,$values| {
+    $key_type = $values['type'] ? {
+      undef   => 'rsa',
+      default => $values['type'],
     }
-  }
 
-  # Holy shit... what are you doing?
-  #
-  # Usually we import keys via PuppetDB. This has especially the flaw, that
-  # everyone (who is root on a machine), is able to place his/her own ssh
-  # public key as sys11_admins.
-  # This means. Potentially root everywhere o_O
-  #
-  # However, what does this crap do.
-  # First... have a look if ssh::config_auth_keys is defined for this node.
-  # If so. It imports all keys from this configuration. If not. The old
-  # behavior is kept. Indicated by $do_import_by_tag.
-  #
-  # Why this complicated?
-  # Backward compatiblity. The node/role.yamls are the same like before!
-  # No change needed in enc-db.
-  # If ssh::config_auth_keys is not defined for the node. Everything is fine
-  # too. The old behaviour will be used.
-  #
-  # Have also a look at the documentation of ssh::config_auth_keys.
-  #
-  if defined(Class['ssh::config_auth_keys']) {
-    include ssh::config_auth_keys
-    $defined_auth_keys = $ssh::config_auth_keys::authorized_keys
-    if $defined_auth_keys {
-      ssh::manage_config_auth_keys { $import_root:
-        authorized_keys => $defined_auth_keys,
-      }
-      $do_import_by_tag = false
+    $ensure = $values['ensure'] ? {
+      undef   => 'present',
+      default => $values['ensure'],
+    }
+
+    if $values['user'] {
+      $user = $values['user']
+      $comment = $keyname
+    } elsif $keyname =~ /^([^_]+)_(.*)$/ {
+      $user = $1
+      $comment = $2
     } else {
-      $do_import_by_tag = true
-    }
-  } else {
-    $do_import_by_tag = true
-  }
-  # /Holy shit... what are you doing?
-
-  if ! empty($export_root) {
-    if $::root_ssh_rsa_pub_key {
-      $keyname = strip(values_at(split($::root_ssh_rsa_pub_key, ' '), 2))
-      $keyvalue = values_at(split($::root_ssh_rsa_pub_key, ' '), 1)
-      $keytype  = values_at(split($::root_ssh_rsa_pub_key, ' '), 0)
-    }
-    exec { 'ssh-keygen -t rsa -b 4096 -f /root/.ssh/id_rsa -N "" -q':
-      creates   => '/root/.ssh/id_rsa.pub',
-      logoutput => true,
-      path      => '/bin:/usr/bin/',
+      $user = $keyname
+      $comment = $keyname
     }
 
-    if $keyname != '' {
-      $export_root_tag = "${::environment}${export_root}"
-      @@ssh_authorized_key_sys11 { "${keyname}_${hostname}":
-        type => $keytype,
-        key  => $keyvalue,
-        tag  => $export_root_tag,
-        user => root,
-        }
-      } else {
-        notify {'Created new ssh key. Re-run me to export it.':}
-      }
+    ssh_authorized_key_sys11 { $keyname:
+      ensure => $ensure,
+      user   => $user,
+      key    => $values['key'],
+      type   => $key_type,
+      name   => $comment,
     }
-
-  if ! empty($import_root) and $do_import_by_tag {
-    ssh::manage_import_keys { $import_root: }
   }
 
-  if $purge {
+  if $purge and ! defined(Resources['ssh_authorized_key_sys11']) {
     resources { 'ssh_authorized_key_sys11':
       purge => true
     }

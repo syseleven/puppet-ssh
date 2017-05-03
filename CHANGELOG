@@ -1,3 +1,5 @@
+1.2
+  - Major cleanup of unused functionality regarding authorized_keys management #pp-3849
 1.13
   - Switch from $::puppet_environment to $::environment #pp-3831
 1.12

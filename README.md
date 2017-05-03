@@ -104,51 +104,11 @@ Manage authorized_keys.
 
     classes:
       ssh::authorized_keys:
-        purge: true
-        import_root:
-          - sys11_admins
-
-Import all ssh public keys named sys11_admins into /root/.ssh/authorized_keys.
-If your Node implements the class ssh::config_auth_keys as well, this keys will be used.
-
-e.g.
-
-    classes:
-      ssh::config_auth_keys:
         authorized_keys:
-          sys11_admins:
-            'root_admin1':
-              type: ssh-rsa
-              key: AA...
-            'root_admin2':
-              type: ssh-dss
-              key: AA...
-          backupserver:
-            'root_nfs-backup01.blu1.syseleven.de':
-              type: ssh-rsa
-              key: AA..
-
-Where sys11_admins and backupserver are the group names, to be used as import_root.
-We created a class sys11_ssh_keys, that we load on highest level as possible.
-We use it on hardwarenode_base and virtuozzo_ve. This Class does pretty much nothing,
-expect of holding the configuration for ssh::authorized_keys. So this class does
-not affect any configuration, as long as ssh::authorized_keys ist not used.
-
-You can import separate keys as well, or remove keys explicitly.
-
-    classes:
-      ssh::authorized_keys:
+          root_sandres:
+            key: AAAAB3NzaC1yc2EAAAABIwAAAQEA5rKU2+4WlWxSoXg22Vciq88yxxr22LdAGD8HSPjOQfDxRvdIPJ4EDu6sqesehpJdOoSvOj+lxX8YbIqORpQlqBVRV7sUdiYGTRGgb7jBuPZFTVpl/Q5mIsFuv1odWwx3A12JrniQlo2GtJ/R7v0Y9JWdYsRB5QNW8Zx6pceu/UJM66lsvvFk8N2SzZGr2TWJDOrWvkicTTTynKHF37Znn+wbRJOQEm4jYLW1IXHz/6/StD+pPcn0QMjt1t4ixxXv9F+Xo3nDpKsXd0qGbvvfzBJAC7y/0y6QT2n9xyz1qr69uyaz/WDD/sRVROyLFKBDl2CxplFN2if/Wu1QhyP9qw==
+            type: rsa
         purge: true
-        import_root:
-          - sys11_admins
-        authorized_keys:
-          'root_someoneskey':
-            key: AA...
-            type: rsa
-          'root_obsoletekey':
-            key: AA...
-            type: rsa
-            ensure: absent
 
 ## ssh::nagioscheck
 
